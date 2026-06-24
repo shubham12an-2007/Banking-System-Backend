@@ -1,5 +1,6 @@
 const userModel = require("../models/user.model");
 const jwt = require("jsonwebtoken");
+const emailService = require("../services/email.service");
 
 /**
  * -  user register controller
@@ -33,6 +34,11 @@ async function userRegisterController(req, res) {
       httpOnly: true,
     });
 
+    await emailService.sendRegistrationEmail({
+      userEmail: user.email,
+      name: user.name,
+    });
+
     return res.status(201).json({
       user: {
         _id: user._id,
@@ -59,7 +65,7 @@ async function userLogInController(req, res) {
   try {
     const { email, password } = req.body;
 
-    const user = await userModel.findOne({ email });
+    const user = await userModel.findOne({ email }).select("+password");
 
     if (!user) {
       return res.status(401).json({ message: "Email or Password is Inavlid" });
