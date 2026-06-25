@@ -108,6 +108,58 @@ async function sendRegistrationEmail({ userEmail, name }) {
   await sendEmail(userEmail, subject, text, html);
 }
 
+async function sendTransactionEmail({ userEmail, name, amount, toAccount }) {
+  const subject = "Transaction Alert – Funds Transferred Successfully! ";
+  const text = `Hello ${name},\n\nYour transaction of $${amount} to account ${toAccount} has been processed successfully.`;
+  const html = `
+    <html>
+    <head>
+        <style>
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background-color: #f0f0f0; padding: 20px; text-align: center; }
+            .content { padding: 20px; }
+            .cta-container { text-align: center; margin-top: 20px; }
+            .btn { display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; }
+            .footer { background-color: #f0f0f0; padding: 20px; text-align: center; font-size: 12px; }
+            .features li { margin-bottom: 8px; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>FinTech Ledger</h1>
+            </div>
+            <div class="content">
+                <h2>Hello ${name},</h2>
+                <p>Your transaction of $${amount} to account ${toAccount} has been processed successfully.</p>
+            </div>
+            <div class="footer">
+                <p>&copy; 2026 FinTech Ledger Inc. All rights reserved.</p>
+                <p>This is an automated system notification regarding your transaction.</p>
+            </div>
+        </div>
+    </body>
+    </html>
+  `;
+
+  await sendEmail(userEmail, subject, text, html);
+}
+
+async function sendTranscationFailedEmail({
+  userEmail,
+  name,
+  amount,
+  toAccount,
+}) {
+  const subject = "Transaction Alert – Funds Transfer Failed! ";
+  const text = `Hello ${name},\n\nYour transaction of $${amount} to account ${toAccount} has failed. Please check your account balance and try again.`;
+  const html = `<p>Hello ${name},</p><p>Your transaction of $${amount} to account ${toAccount} has failed. Please check your account balance and try again.</p>`;
+
+  await sendEmail(userEmail, subject, text, html);
+}
+
 module.exports = {
   sendRegistrationEmail,
+  sendTransactionEmail,
+  sendTranscationFailedEmail,
 };

@@ -1,0 +1,16 @@
+const { Router } = require("express");
+const transactionRoutes = Router();
+const transactionController = require("../controllers/transaction.controller");
+const authMiddleware = require("../middlewares/auth.middleware");
+/**
+ *  - POST /api/transactions
+ *  - Create a new transaction
+ */
+
+transactionRoutes.post(
+  "/",
+  authMiddleware.authMiddleware,
+  transactionController.createTransaction,
+);
+
+module.exports = transactionRoutes;
