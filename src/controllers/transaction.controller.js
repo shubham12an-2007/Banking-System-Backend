@@ -148,6 +148,24 @@ async function createInitialFunds(req, res) {
     idempotencyKey,
   });
   if (isTransactionAlreadyExists) {
+    if (isTransactionAlreadyExists.status === "COMPLETED") {
+      return res.status(200).json({
+        message: "Transaction already completed",
+        transaction: isTransactionAlreadyExists,
+      });
+    }
+    if (isTransactionAlreadyExists.status === "PENDING") {
+      return res.status(200).json({ message: "Transaction is still pending" });
+    }
+    if (isTransactionAlreadyExists.status === "FAILED") {
+      return res.status(200).json({ message: "Transaction has failed" });
+    }
+    if (isTransactionAlreadyExists.status === "REVERSED") {
+      return res
+        .status(200)
+        .json({ message: "Transaction has been reversed , please retry" });
+    }
+
     return res.status(200).json({
       message: "Transaction already exists",
       transaction: isTransactionAlreadyExists,

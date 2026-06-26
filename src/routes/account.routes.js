@@ -33,7 +33,7 @@ router.get(
 router.get(
   "/balance/:accountId",
   authMiddleware.authMiddleware,
-  accountControllers.getAccountBalanceController,
+  accountControllers.getAccountByIdController,
 );
 
 module.exports = router;
