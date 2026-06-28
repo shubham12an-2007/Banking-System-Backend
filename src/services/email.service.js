@@ -108,6 +108,7 @@ async function sendRegistrationEmail({ userEmail, name }) {
   await sendEmail(userEmail, subject, text, html);
 }
 
+// This is a function for the sending the transaction email to the users
 async function sendTransactionEmail({ userEmail, name, amount, toAccount }) {
   const subject = "Transaction Alert – Funds Transferred Successfully! ";
   const text = `Hello ${name},\n\nYour transaction of $${amount} to account ${toAccount} has been processed successfully.`;
