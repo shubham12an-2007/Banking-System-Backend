@@ -1,3 +1,5 @@
+// This middleware will check whether the user is logged in or not and then allow it to perform task that the user want to do
+
 const userModel = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 
